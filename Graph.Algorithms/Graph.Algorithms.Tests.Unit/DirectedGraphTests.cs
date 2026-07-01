@@ -2,7 +2,7 @@
 
 namespace Graph.Algorithms.Tests.Unit;
 
-public class UndirectedGraphTests
+public class DirectedGraphTests
 {
     private static List<List<int>> CreateAdjacencyMatrixFromEdges(int V, int[,] edges)
     {
@@ -19,8 +19,6 @@ public class UndirectedGraphTests
             var u = edges[i, 0];
             var v = edges[i, 1];
             mat[u][v] = 1;
-            // since the graph is undirected
-            mat[v][u] = 1;
         }
         return mat;
     }
@@ -28,19 +26,20 @@ public class UndirectedGraphTests
     [Fact]
     public void CreateAdjacencyMatrixFromEdges_Should_CreateAnAdjacencyMatrixFromEdges()
     {
-        // 1-2
-        // | |
-        // 0-+
+        // 1->2
+        // |  |
+        // v  |
+        // 0<-+
         var V = 3;
         // list of edges (u, v)
-        int[,] edges = {{0, 1}, {0, 2}, {1, 2}};
+        int[,] edges = {{ 1, 2 }, { 1, 0 }, { 2, 0 }};
         // Build the graph using edges
         var mat = CreateAdjacencyMatrixFromEdges(V, edges);
         // output should be:
-        // 0 1 1
+        // 0 0 0
         // 1 0 1
-        // 1 1 0
-        List<List<int>> exp = [[0, 1, 1], [1, 0, 1], [1, 1, 0]];
+        // 1 0 0
+        List<List<int>> exp = [[0, 0, 0], [1, 0, 1], [1, 0, 0]];
         mat.Should().BeEquivalentTo(exp);
     }
     
@@ -54,8 +53,6 @@ public class UndirectedGraphTests
             var u = edges[i, 0];
             var v = edges[i, 1];
             adj[u].Add(v);
-            // since the graph is undirected
-            adj[v].Add(u); 
         }
         return adj;
     }
@@ -63,19 +60,20 @@ public class UndirectedGraphTests
     [Fact]
     public void CreateAdjacencyListFromEdges_Should_CreateAnAdjacencyListFromEdges()
     {
-        // 1-2
-        // | |
-        // 0-+
+        // 1->2
+        // |  |
+        // v  |
+        // 0<-+
         var V = 3;
         // list of edges (u, v)
-        int[,] edges = {{ 0, 1 }, { 0, 2 }, { 1, 2 }};
+        int[,] edges = {{ 1, 0 }, { 2, 0 }, { 1, 2 }};
         // Build the graph using edges
         var mat = CreateAdjacencyListFromEdges(V, edges);
         // output should be:
-        // 0: 1 2
+        // 0: 
         // 1: 0 2
-        // 1: 0 1
-        List<List<int>> exp = [[1, 2], [0, 2], [0, 1]];
+        // 1: 0
+        List<List<int>> exp = [[], [0, 2], [0]];
         mat.Should().BeEquivalentTo(exp);
     }
 }
