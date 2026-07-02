@@ -4,7 +4,7 @@ namespace Graph.Algorithms.Tests.Unit;
 
 public class BreadthFirstSearchTests
 {
-    // with a connected graph, you can visit very vertex from a source vertex 
+    // with a connected graph, you can visit every vertex from the source vertex 
     private static List<int> TraverseConnectedGraph(List<List<int>> adj)
     {
         var src = 0;
