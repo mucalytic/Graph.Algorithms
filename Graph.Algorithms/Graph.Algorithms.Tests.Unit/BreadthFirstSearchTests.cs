@@ -32,7 +32,7 @@ public class BreadthFirstSearchTests
     }
 
     private static void BreadthFirstSearch(
-        List<List<int>> adj, int sourceVertex, bool[] discovered, List<int> visitOrder)
+        List<List<int>> adjacencyList, int sourceVertex, bool[] discovered, List<int> visitOrder)
     {
         var verticesToBeVisited = new Queue<int>(); // q
         discovered[sourceVertex] = true;
@@ -43,7 +43,7 @@ public class BreadthFirstSearchTests
             visitOrder.Add(currentVertex);
             // visit all the unvisited
             // neighbours of current node
-            foreach (var vertex in adj[currentVertex])
+            foreach (var vertex in adjacencyList[currentVertex])
             {
                 if (discovered[vertex]) continue;
                 discovered[vertex] = true;
