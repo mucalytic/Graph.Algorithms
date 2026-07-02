@@ -46,7 +46,7 @@ public class DepthFirstSearchTests
         //  \| |
         //   2-4
         // expected:
-        // 0, 1,, 3, 4, 2
+        // 0, 1, 3, 4, 2
         yield return
         [
             new List<List<int>> { new() { 1, 2 }, new() { 0, 3 }, new() { 0, 4 }, new() { 1, 4 }, new() { 2, 3 } },
