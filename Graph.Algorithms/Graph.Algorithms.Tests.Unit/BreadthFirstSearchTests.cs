@@ -87,10 +87,7 @@ public class BreadthFirstSearchTests
         var visited = new bool[V];
         for (var i = 0; i < V; i++)
         {
-            if (!visited[i])
-            {
-                BreadthFirstSearch(adj, i, visited, res);
-            }
+            if (!visited[i]) BreadthFirstSearch(adj, i, visited, res);
         }
         return res;
     }
