@@ -34,12 +34,12 @@ public class BreadthFirstSearchTests
     private static void BreadthFirstSearch(
         List<List<int>> adj, int sourceVertex, bool[] vertexDiscovered, List<int> orderOfVisitation)
     {
-        var vertexesToBeVisited = new Queue<int>(); // q
+        var verticesToBeVisited = new Queue<int>(); // q
         vertexDiscovered[sourceVertex] = true;
-        vertexesToBeVisited.Enqueue(sourceVertex);
-        while (vertexesToBeVisited.Count > 0)
+        verticesToBeVisited.Enqueue(sourceVertex);
+        while (verticesToBeVisited.Count > 0)
         {
-            var currentVertex = vertexesToBeVisited.Dequeue();
+            var currentVertex = verticesToBeVisited.Dequeue();
             orderOfVisitation.Add(currentVertex);
             // visit all the unvisited
             // neighbours of current node
@@ -47,7 +47,7 @@ public class BreadthFirstSearchTests
             {
                 if (vertexDiscovered[vertex]) continue;
                 vertexDiscovered[vertex] = true;
-                vertexesToBeVisited.Enqueue(vertex);
+                verticesToBeVisited.Enqueue(vertex);
             }
         }
     }
