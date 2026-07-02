@@ -9,44 +9,44 @@ public class BreadthFirstSearchTests
     {
         var sourceVertex = 0; //src
         var vertexCount = adjacencyList.Count; // V
-        var orderOfVisitation = new List<int>(); // res
+        var visitOrder = new List<int>(); // res
         var vertexDiscovered = new bool[vertexCount]; // visited
-        BreadthFirstSearch(adjacencyList, sourceVertex, vertexDiscovered, orderOfVisitation);
-        return orderOfVisitation;
+        BreadthFirstSearch(adjacencyList, sourceVertex, vertexDiscovered, visitOrder);
+        return visitOrder;
     }
 
     // with a disconnected graph, you have to traverse the graph from every unvisited vertex
     private static List<int> TraverseDisconnectedGraph(List<List<int>> adjacencyList)
     {
         var vertexCount = adjacencyList.Count; // V
-        var orderOfVisitation = new List<int>(); // res
+        var visitOrder = new List<int>(); // res
         var vertexDiscovered = new bool[vertexCount]; // visited
         for (var sourceVertex = 0; sourceVertex < vertexCount; sourceVertex++)
         {
             if (!vertexDiscovered[sourceVertex])
             {
-                BreadthFirstSearch(adjacencyList, sourceVertex, vertexDiscovered, orderOfVisitation);
+                BreadthFirstSearch(adjacencyList, sourceVertex, vertexDiscovered, visitOrder);
             }
         }
-        return orderOfVisitation;
+        return visitOrder;
     }
 
     private static void BreadthFirstSearch(
-        List<List<int>> adj, int sourceVertex, bool[] vertexDiscovered, List<int> orderOfVisitation)
+        List<List<int>> adj, int sourceVertex, bool[] discovered, List<int> visitOrder)
     {
         var verticesToBeVisited = new Queue<int>(); // q
-        vertexDiscovered[sourceVertex] = true;
+        discovered[sourceVertex] = true;
         verticesToBeVisited.Enqueue(sourceVertex);
         while (verticesToBeVisited.Count > 0)
         {
             var currentVertex = verticesToBeVisited.Dequeue();
-            orderOfVisitation.Add(currentVertex);
+            visitOrder.Add(currentVertex);
             // visit all the unvisited
             // neighbours of current node
             foreach (var vertex in adj[currentVertex])
             {
-                if (vertexDiscovered[vertex]) continue;
-                vertexDiscovered[vertex] = true;
+                if (discovered[vertex]) continue;
+                discovered[vertex] = true;
                 verticesToBeVisited.Enqueue(vertex);
             }
         }
