@@ -41,8 +41,7 @@ public class BreadthFirstSearchTests
         {
             var currentVertex = verticesToBeVisited.Dequeue();
             visitOrder.Add(currentVertex);
-            // visit all the unvisited
-            // neighbours of current node
+            // visit all the unvisited neighbours of current node
             foreach (var vertex in adjacencyList[currentVertex])
             {
                 if (discovered[vertex]) continue;
