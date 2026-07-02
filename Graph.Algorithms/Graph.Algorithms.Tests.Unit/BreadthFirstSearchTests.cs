@@ -7,7 +7,7 @@ public class BreadthFirstSearchTests
     // with a connected graph, you can visit every vertex from the source vertex 
     private static List<int> TraverseConnectedGraph(List<List<int>> adjacencyList)
     {
-        var sourceVertex = 0; //src
+        var sourceVertex = 0; // src
         var vertexCount = adjacencyList.Count; // V
         var visitOrder = new List<int>(); // res
         var vertexDiscovered = new bool[vertexCount]; // visited
