@@ -5,45 +5,49 @@ namespace Graph.Algorithms.Tests.Unit;
 public class BreadthFirstSearchTests
 {
     // with a connected graph, you can visit every vertex from the source vertex 
-    private static List<int> TraverseConnectedGraph(List<List<int>> adj)
+    private static List<int> TraverseConnectedGraph(List<List<int>> adjacencyList)
     {
-        var src = 0;
-        var V = adj.Count;
-        var res = new List<int>();
-        var visited = new bool[V];
-        BreadthFirstSearch(adj, src, visited, res);
-        return res;
+        var sourceVertex = 0; //src
+        var vertexCount = adjacencyList.Count; // V
+        var orderOfVisitation = new List<int>(); // res
+        var vertexDiscovered = new bool[vertexCount]; // visited
+        BreadthFirstSearch(adjacencyList, sourceVertex, vertexDiscovered, orderOfVisitation);
+        return orderOfVisitation;
     }
 
     // with a disconnected graph, you have to traverse the graph from every unvisited vertex
-    private static List<int> TraverseDisconnectedGraph(List<List<int>> adj)
+    private static List<int> TraverseDisconnectedGraph(List<List<int>> adjacencyList)
     {
-        var V = adj.Count;
-        var res = new List<int>();
-        var visited = new bool[V];
-        for (var src = 0; src < V; src++)
+        var vertexCount = adjacencyList.Count; // V
+        var orderOfVisitation = new List<int>(); // res
+        var vertexDiscovered = new bool[vertexCount]; // visited
+        for (var sourceVertex = 0; sourceVertex < vertexCount; sourceVertex++)
         {
-            if (!visited[src]) BreadthFirstSearch(adj, src, visited, res);
+            if (!vertexDiscovered[sourceVertex])
+            {
+                BreadthFirstSearch(adjacencyList, sourceVertex, vertexDiscovered, orderOfVisitation);
+            }
         }
-        return res;
+        return orderOfVisitation;
     }
 
-    private static void BreadthFirstSearch(List<List<int>> adj, int src, bool[] visited, List<int> res)
+    private static void BreadthFirstSearch(
+        List<List<int>> adj, int sourceVertex, bool[] vertexDiscovered, List<int> orderOfVisitation)
     {
-        var q = new Queue<int>();
-        visited[src] = true;
-        q.Enqueue(src);
-        while (q.Count > 0)
+        var vertexesToBeVisited = new Queue<int>(); // q
+        vertexDiscovered[sourceVertex] = true;
+        vertexesToBeVisited.Enqueue(sourceVertex);
+        while (vertexesToBeVisited.Count > 0)
         {
-            var curr = q.Dequeue();
-            res.Add(curr);
+            var currentVertex = vertexesToBeVisited.Dequeue();
+            orderOfVisitation.Add(currentVertex);
             // visit all the unvisited
             // neighbours of current node
-            foreach (var x in adj[curr])
+            foreach (var vertex in adj[currentVertex])
             {
-                if (visited[x]) continue;
-                visited[x] = true;
-                q.Enqueue(x);
+                if (vertexDiscovered[vertex]) continue;
+                vertexDiscovered[vertex] = true;
+                vertexesToBeVisited.Enqueue(vertex);
             }
         }
     }
