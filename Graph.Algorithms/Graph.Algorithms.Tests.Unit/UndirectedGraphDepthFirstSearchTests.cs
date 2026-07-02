@@ -2,7 +2,7 @@ using FluentAssertions;
 
 namespace Graph.Algorithms.Tests.Unit;
 
-public class DepthFirstSearchTests
+public class UndirectedGraphDepthFirstSearchTests
 {
     // with a connected graph, you can visit every vertex from the source vertex
     private static List<int> TraverseConnectedGraph(List<List<int>> adj)
