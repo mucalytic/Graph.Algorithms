@@ -5,35 +5,36 @@ namespace Graph.Algorithms.Tests.Unit;
 public class UndirectedGraphDepthFirstSearchTests
 {
     // with a connected graph, you can visit every vertex from the source vertex
-    private static List<int> TraverseConnectedGraph(List<List<int>> adj)
+    private static List<int> TraverseConnectedGraph(List<List<int>> adjacencyList)
     {
-        var res = new List<int>();
-        var visited = new bool[adj.Count];
-        DepthFirstSearch(adj, visited, 0, res);
-        return res;
+        var visitOrder = new List<int>(); // res
+        var visited = new bool[adjacencyList.Count];
+        DepthFirstSearch(adjacencyList, visited, 0, visitOrder);
+        return visitOrder;
     }
 
     // with a disconnected graph, you have to traverse the graph from every unvisited vertex
-    private static List<int> TraverseDisconnectedGraph(List<List<int>> adj)
+    private static List<int> TraverseDisconnectedGraph(List<List<int>> adjacencyList)
     {
-        var res = new List<int>();
-        var visited = new bool[adj.Count];
+        var visitOrder = new List<int>(); // res
+        var visited = new bool[adjacencyList.Count];
         // loop through all vertices to handle disconnected graphs
-        for (var i = 0; i < adj.Count; i++)
+        for (var vertex = 0; vertex < adjacencyList.Count; vertex++)
         {
-            if (!visited[i]) DepthFirstSearch(adj, visited, i, res);
+            if (!visited[vertex]) DepthFirstSearch(adjacencyList, visited, vertex, visitOrder);
         }
-        return res;
+        return visitOrder;
     }
 
-    private static void DepthFirstSearch(List<List<int>> adj, bool[] visited, int s, List<int> res)
+    private static void DepthFirstSearch(
+        List<List<int>> adjacencyList, bool[] visited, int sourceVertex, List<int> visitOrder)
     {
-        visited[s] = true;
-        res.Add(s);
+        visited[sourceVertex] = true;
+        visitOrder.Add(sourceVertex);
         // recursively visit all adjacent vertices that are not visited yet
-        foreach (var i in adj[s])
+        foreach (var vertex in adjacencyList[sourceVertex])
         {
-            if (!visited[i]) DepthFirstSearch(adj, visited, i, res);
+            if (!visited[vertex]) DepthFirstSearch(adjacencyList, visited, vertex, visitOrder);
         }
     }
 
