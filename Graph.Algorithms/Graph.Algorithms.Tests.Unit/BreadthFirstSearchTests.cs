@@ -4,13 +4,33 @@ namespace Graph.Algorithms.Tests.Unit;
 
 public class BreadthFirstSearchTests
 {
+    // with a connected graph, you can visit very vertex from a source vertex 
     private static List<int> TraverseConnectedGraph(List<List<int>> adj)
     {
+        var src = 0;
         var V = adj.Count;
-        var q = new Queue<int>();
         var res = new List<int>();
         var visited = new bool[V];
-        var src = 0;
+        BreadthFirstSearch(adj, src, visited, res);
+        return res;
+    }
+
+    // with a disconnected graph, you have to traverse the graph from every unvisited vertex
+    private static List<int> TraverseDisconnectedGraph(List<List<int>> adj)
+    {
+        var V = adj.Count;
+        var res = new List<int>();
+        var visited = new bool[V];
+        for (var src = 0; src < V; src++)
+        {
+            if (!visited[src]) BreadthFirstSearch(adj, src, visited, res);
+        }
+        return res;
+    }
+
+    private static void BreadthFirstSearch(List<List<int>> adj, int src, bool[] visited, List<int> res)
+    {
+        var q = new Queue<int>();
         visited[src] = true;
         q.Enqueue(src);
         while (q.Count > 0)
@@ -26,7 +46,6 @@ public class BreadthFirstSearchTests
                 q.Enqueue(x);
             }
         }
-        return res;
     }
 
     public static IEnumerable<object[]> ConnectedGraphTestCases()
@@ -78,38 +97,6 @@ public class BreadthFirstSearchTests
             new List<List<int>> { new() { 2, 3 }, new() { 2 }, new() { 0, 1 }, new() { 0 }, new() { 5 }, new() { 4 } },
             new List<int> { 0, 2, 3, 1, 4, 5 }
         ];
-    }
-
-    private static List<int> TraverseDisconnectedGraph(List<List<int>> adj)
-    {
-        var V = adj.Count;
-        var res = new List<int>();
-        var visited = new bool[V];
-        for (var i = 0; i < V; i++)
-        {
-            if (!visited[i]) BreadthFirstSearch(adj, i, visited, res);
-        }
-        return res;
-    }
-
-    private static void BreadthFirstSearch(List<List<int>> adj, int src, bool[] visited, List<int> res)
-    {
-        var q = new Queue<int>();
-        visited[src] = true;
-        q.Enqueue(src);
-        while (q.Count > 0)
-        {
-            var curr = q.Dequeue();
-            res.Add(curr);
-            // visit all the unvisited
-            // neighbours of current node
-            foreach (var x in adj[curr])
-            {
-                if (visited[x]) continue;
-                visited[x] = true;
-                q.Enqueue(x);
-            }
-        }
     }
 
     [Theory]
