@@ -2,7 +2,7 @@ using FluentAssertions;
 
 namespace Graph.Algorithms.Tests.Unit;
 
-public class UnionFind
+public class UnionFindWithPathCompression
 {
     public class Internal(int size)
     {
