@@ -17,9 +17,12 @@ public class UnionFindWithPathCompression
 
         public int Find(int i)
         {
-            if (_parents[i] == i) return i; // found the rep
-            return Find(_parents[i]);
+            var root = _parents[i];
+            if (_parents[root] != root) return _parents[i] = Find(root);
+            return root;
         }
+        
+        public int[] Parents => _parents;
     }
 
     [Theory]
@@ -45,5 +48,19 @@ public class UnionFindWithPathCompression
         
         // assert
         sameSet.Should().Be(expected);
+    }
+    
+    [Fact]
+    public void IndexesOfElements_ShouldPointToTheirParents()
+    {
+        // arrange
+        var uf =  new Internal(7);
+        uf.Union(1, 2);
+        uf.Union(2, 3);
+        uf.Union(3, 4);
+        uf.Union(5, 6);
+        
+        // assert
+        uf.Parents.Should().Equal([0, 4, 4, 4, 4, 6, 6]);
     }
 }

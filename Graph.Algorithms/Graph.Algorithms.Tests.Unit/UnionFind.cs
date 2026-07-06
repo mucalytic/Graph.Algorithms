@@ -20,6 +20,8 @@ public class UnionFind
             if (_parents[i] == i) return i; // found the rep
             return Find(_parents[i]);
         }
+        
+        public int[] Parents => _parents;
     }
 
     [Theory]
@@ -33,7 +35,7 @@ public class UnionFind
     [InlineData(0, 2, false)]
     [InlineData(0, 3, false)]
     [InlineData(0, 4, false)]
-    public void Test(int i, int j, bool expected)
+    public void ElementsInUnion_ShouldBeInSameSet_(int i, int j, bool expected)
     {
         // arrange
         var uf =  new Internal(5);
@@ -45,5 +47,17 @@ public class UnionFind
         
         // assert
         sameSet.Should().Be(expected);
+    }
+    
+    [Fact]
+    public void IndexesOfElements_ShouldPointToTheirParents()
+    {
+        // arrange
+        var uf =  new Internal(5);
+        uf.Union(1, 2);
+        uf.Union(3, 4);
+        
+        // assert
+        uf.Parents.Should().Equal([0, 2, 2, 4, 4]);
     }
 }
