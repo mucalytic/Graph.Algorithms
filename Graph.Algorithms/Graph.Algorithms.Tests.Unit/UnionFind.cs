@@ -17,7 +17,7 @@ public class UnionFind
 
         public int Find(int i)
         {
-            if (_parents[i] == i) return i; // found the rep
+            if (_parents[i] == i) return _parents[i]; // found the rep
             return Find(_parents[i]);
         }
         
