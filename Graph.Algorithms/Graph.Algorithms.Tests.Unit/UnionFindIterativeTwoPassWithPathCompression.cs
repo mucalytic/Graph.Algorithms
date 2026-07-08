@@ -2,26 +2,58 @@ using FluentAssertions;
 
 namespace Graph.Algorithms.Tests.Unit;
 
-public class UnionFindWithPathCompression
+public class UnionFindIterativeTwoPassWithPathCompression
 {
-    public class Internal(int size)
+    public class Internal
     {
-        private readonly int[] _parents = Enumerable.Range(0, size).ToArray();
+        private readonly int[] _parent;
+        private readonly int[] _size;
 
+        public Internal(int size)
+        {
+            _size = new int[size];
+            _parent = new int[size];
+            for (var i = 0; i < size; i++)
+            {
+                _parent[i] = i;
+                _size[i] = 1;
+            }
+        }
+        
         public void Union(int i, int j)
         {
             var ri = Find(i);
             var rj = Find(j);
-            _parents[ri] = rj;
+            if (ri == rj) return;
+            if (_size[ri] < _size[rj])
+            {
+                _size[rj] += _size[ri];
+                _parent[ri] = rj;
+            }
+            else
+            {
+                _size[ri] +=  _size[rj];
+                _parent[rj] = ri;
+            }
         }
 
         public int Find(int i)
         {
-            if (_parents[i] != i) _parents[i] = Find(_parents[i]);
-            return _parents[i];
+            var root = i;
+            while (_parent[root] != root)
+            {
+                root = _parent[root];
+            }
+            while (root != i) // full path compression is forced here
+            {
+                var n = _parent[i];
+                _parent[i] = root;
+                i = n;
+            }
+            return root;
         }
         
-        public int[] Parents => _parents;
+        public int[] Parent => _parent;
     }
 
     [Theory]
@@ -60,7 +92,7 @@ public class UnionFindWithPathCompression
         uf.Union(5, 6);
         
         // assert
-        uf.Parents.Should().Equal([0, 2, 3, 4, 4, 6, 6]); // path compression hasn't happened
+        uf.Parent.Should().Equal([0, 1, 1, 1, 1, 5, 5]);
     }
     
     [Fact]
@@ -74,8 +106,8 @@ public class UnionFindWithPathCompression
         uf.Union(5, 6);
                 
         // assert
-        uf.Find(1).Should().Be(uf.Find(4)); // force path compression
-        uf.Find(5).Should().Be(uf.Find(6)); // force path compression
-        uf.Parents.Should().Equal([0, 4, 4, 4, 4, 6, 6]);
+        uf.Find(1).Should().Be(uf.Find(4));
+        uf.Find(5).Should().Be(uf.Find(6));
+        uf.Parent.Should().Equal([0, 1, 1, 1, 1, 5, 5]);
     }
 }

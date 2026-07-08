@@ -2,26 +2,26 @@ using FluentAssertions;
 
 namespace Graph.Algorithms.Tests.Unit;
 
-public class UnionFind
+public class UnionFindRecursive
 {
     public class Internal(int size)
     {
-        private readonly int[] _parents = Enumerable.Range(0, size).ToArray();
+        private readonly int[] _parent = Enumerable.Range(0, size).ToArray();
 
         public void Union(int i, int j)
         {
             var ri = Find(i);
             var rj = Find(j);
-            _parents[ri] = rj;
+            _parent[ri] = rj;
         }
 
         public int Find(int i)
         {
-            if (_parents[i] == i) return _parents[i]; // found the rep
-            return Find(_parents[i]);
+            if (_parent[i] == i) return _parent[i]; // found the rep
+            return Find(_parent[i]);
         }
         
-        public int[] Parents => _parents;
+        public int[] Parent => _parent;
     }
 
     [Theory]
@@ -58,6 +58,6 @@ public class UnionFind
         uf.Union(3, 4);
         
         // assert
-        uf.Parents.Should().Equal([0, 2, 2, 4, 4]);
+        uf.Parent.Should().Equal([0, 2, 2, 4, 4]);
     }
 }
