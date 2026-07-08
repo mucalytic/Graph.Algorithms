@@ -35,7 +35,7 @@ public class UnionFindWithPathCompression
     [InlineData(0, 2, false)]
     [InlineData(0, 3, false)]
     [InlineData(0, 4, false)]
-    public void Test(int i, int j, bool expected)
+    public void ElementsInUnion_ShouldBeInSameSet_(int i, int j, bool expected)
     {
         // arrange
         var uf =  new Internal(5);
@@ -50,7 +50,7 @@ public class UnionFindWithPathCompression
     }
     
     [Fact]
-    public void IndexesOfElements_ShouldPointToTheirParents()
+    public void IndexesOfElements_ShouldPointToTheirParent_WhenUnionOnly()
     {
         // arrange
         var uf =  new Internal(7);
@@ -61,5 +61,23 @@ public class UnionFindWithPathCompression
         
         // assert
         uf.Parents.Should().Equal([0, 2, 3, 4, 4, 6, 6]);
+    }
+    
+    [Fact]
+    public void IndexesOfElements_ShouldPointToRoot_WhenUnionFindDone()
+    {
+        // arrange
+        var uf =  new Internal(7);
+        uf.Union(1, 2);
+        uf.Union(2, 3);
+        uf.Union(3, 4);
+        uf.Union(5, 6);
+                
+        // act
+        var sameSet = uf.Find(1) ==  uf.Find(5);
+
+        // assert
+        sameSet.Should().Be(false);
+        uf.Parents.Should().Equal([0, 4, 4, 4, 4, 6, 6]);
     }
 }
