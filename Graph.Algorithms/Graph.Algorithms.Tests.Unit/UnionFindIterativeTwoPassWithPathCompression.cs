@@ -8,10 +8,12 @@ public class UnionFindIterativeTwoPassWithPathCompression
     {
         private readonly int[] _parent;
         private readonly int[] _size;
+        private int _componentCount;
 
         public Internal(int size)
         {
             _size = new int[size];
+            _componentCount = size;
             _parent = new int[size];
             for (var i = 0; i < size; i++)
             {
@@ -35,6 +37,7 @@ public class UnionFindIterativeTwoPassWithPathCompression
                 _size[ri] +=  _size[rj];
                 _parent[rj] = ri;
             }
+            _componentCount--; // because we just merged two components
         }
 
         public int Find(int i)
