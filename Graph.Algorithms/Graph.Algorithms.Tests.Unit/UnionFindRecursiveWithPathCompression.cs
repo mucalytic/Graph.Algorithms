@@ -17,7 +17,7 @@ public class UnionFindRecursiveWithPathCompression
 
         public int Find(int i)
         {
-            if (_parent[i] != i) _parent[i] = Find(_parent[i]);
+            if (i != _parent[i]) _parent[i] = Find(_parent[i]);
             return _parent[i];
         }
         

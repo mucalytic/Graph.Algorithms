@@ -17,7 +17,7 @@ public class UnionFindRecursive
 
         public int Find(int i)
         {
-            if (_parent[i] == i) return _parent[i]; // found the rep
+            if (i == _parent[i]) return _parent[i]; // found the rep
             return Find(_parent[i]);
         }
         

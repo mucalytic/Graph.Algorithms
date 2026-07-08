@@ -40,7 +40,7 @@ public class UnionFindIterativeTwoPassWithPathCompression
         public int Find(int i)
         {
             var root = i;
-            while (_parent[root] != root)
+            while (root != _parent[root])
             {
                 root = _parent[root];
             }
