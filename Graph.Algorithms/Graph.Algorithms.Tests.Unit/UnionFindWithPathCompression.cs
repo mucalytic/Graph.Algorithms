@@ -17,9 +17,8 @@ public class UnionFindWithPathCompression
 
         public int Find(int i)
         {
-            var root = _parents[i];
-            if (_parents[root] != root) return _parents[i] = Find(root);
-            return root;
+            if (_parents[i] != i) _parents[i] = Find(_parents[i]);
+            return _parents[i];
         }
         
         public int[] Parents => _parents;
@@ -61,6 +60,6 @@ public class UnionFindWithPathCompression
         uf.Union(5, 6);
         
         // assert
-        uf.Parents.Should().Equal([0, 4, 4, 4, 4, 6, 6]);
+        uf.Parents.Should().Equal([0, 2, 3, 4, 4, 6, 6]);
     }
 }
