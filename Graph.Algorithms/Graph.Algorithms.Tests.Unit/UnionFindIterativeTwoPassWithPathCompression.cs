@@ -25,7 +25,7 @@ public class UnionFindIterativeTwoPassWithPathCompression
             var ri = Find(i);
             var rj = Find(j);
             if (ri == rj) return;
-            if (_size[ri] < _size[rj])
+            if (_size[ri] < _size[rj]) // always add the smaller component to the larger component
             {
                 _size[rj] += _size[ri];
                 _parent[ri] = rj;
